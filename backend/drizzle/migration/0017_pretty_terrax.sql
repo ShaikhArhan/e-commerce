@@ -1,0 +1,1 @@
+ALTER TABLE "order" ADD COLUMN "totalOrderProduct" integer DEFAULT 0 NOT NULL;

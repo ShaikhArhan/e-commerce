@@ -1,0 +1,1 @@
+ALTER TABLE "order" RENAME COLUMN "totalOrderProduct" TO "total_order_product";

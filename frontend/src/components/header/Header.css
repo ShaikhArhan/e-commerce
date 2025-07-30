@@ -1,0 +1,155 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(173, 216, 230, 0.15);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(135, 206, 235, 0.3);
+  z-index: 1000;
+  box-shadow: 0 4px 6px rgba(135, 206, 235, 0.1);
+  box-sizing: border-box;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.nav-link {
+  color: #2c5282;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: #4299e1;
+  background: rgba(66, 153, 225, 0.1);
+}
+
+.icon-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  color: #2c5282;
+}
+
+.icon-button:hover {
+  background: rgba(66, 153, 225, 0.1);
+  transform: scale(1.1);
+}
+
+.icon-button svg {
+  width: 28px;
+  height: 28px;
+  color: #2c5282;
+}
+
+.login-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(66, 153, 225, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+}
+
+.login-link:hover {
+  background: rgba(66, 153, 225, 0.2);
+  transform: translateY(-1px);
+}
+
+.login-icon {
+  font-size: 1rem;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+  .header {
+    padding: 1rem;
+  }
+
+  .header-left {
+    gap: 1rem;
+  }
+
+  .header-right {
+    gap: 0.8rem;
+  }
+
+  .nav-link {
+    font-size: 1rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  .icon-button svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .login-link {
+    padding: 0.4rem 0.8rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .header {
+    padding: 0.8rem;
+  }
+
+  .header-left {
+    gap: 0.8rem;
+  }
+
+  .header-right {
+    gap: 0.6rem;
+  }
+
+  .nav-link {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .icon-button svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .login-link {
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .login-link span {
+    display: none;
+  }
+  
+  .login-icon {
+    margin: 0;
+  }
+}

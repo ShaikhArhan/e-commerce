@@ -1,0 +1,1 @@
+ALTER TABLE "order" ADD COLUMN "order_address" varchar(400) NOT NULL;

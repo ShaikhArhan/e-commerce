@@ -1,0 +1,1 @@
+ALTER TABLE "order" ALTER COLUMN "order_product_details" SET DATA TYPE jsonb;

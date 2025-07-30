@@ -1,0 +1,1 @@
+ALTER TABLE "order" DROP COLUMN "order_product_details";
