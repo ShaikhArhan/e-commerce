@@ -15,6 +15,7 @@ import { Order } from "../pages/order/Order";
 import { FavoriteProduct } from "../pages/favoriteProduct/FavoriteProduct";
 // import FileUpload from "../pages/FileUpload";
 
+
 export const AppRoutes = () => {
   return (
     <>
