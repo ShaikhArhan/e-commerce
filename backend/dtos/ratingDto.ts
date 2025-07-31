@@ -3,6 +3,7 @@ export interface RatingDetailDto {
   rating: number;
   comment: string;
   usingProduct: string;
+  createdAt: string;
 }
 export interface CreateRatingDto {
   productId: string;
