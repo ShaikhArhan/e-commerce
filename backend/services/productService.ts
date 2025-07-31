@@ -1,8 +1,12 @@
-import { eq, ilike, or } from 'drizzle-orm';
-import { db } from '../config/db';
-import { products } from '../drizzle/schema/products';
-import { AddProductDto, UpdateProductDto } from '../dtos/productDto';
-import chalk from 'chalk';
+import { eq, ilike, or } from "drizzle-orm";
+import { db } from "../config/db";
+import { products } from "../drizzle/schema/products";
+import {
+  AddManyProductsDto,
+  AddProductDto,
+  UpdateProductDto,
+} from "../dtos/productDto";
+import chalk from "chalk";
 
 export const addProductService = async (data: AddProductDto) => {
   try {
@@ -21,19 +25,19 @@ export const addProductService = async (data: AddProductDto) => {
     if (
       vendorId === undefined ||
       vendorId === null ||
-      vendorId === '' ||
+      vendorId === "" ||
       vendorAddress === undefined ||
       vendorAddress === null ||
-      vendorAddress === '' ||
+      vendorAddress === "" ||
       image === undefined ||
       image === null ||
-      image === '' ||
+      image === "" ||
       name === undefined ||
       name === null ||
-      name === '' ||
+      name === "" ||
       description === undefined ||
       description === null ||
-      description === '' ||
+      description === "" ||
       price === undefined ||
       price === null ||
       stockStatus === undefined ||
@@ -41,36 +45,76 @@ export const addProductService = async (data: AddProductDto) => {
       inStock === undefined ||
       inStock === null
     ) {
-      throw new Error('All fields are required');
+      throw new Error("All fields are required");
     }
 
-    const response = await db.insert(products).values({
-      vendorId,
-      vendorAddress,
-      image,
-      name,
-      description,
-      price,
-      discount,
-      stockStatus,
-      inStock,
-    });
+    const response = await db
+      .insert(products)
+      .values({
+        vendorId,
+        vendorAddress,
+        image,
+        name,
+        description,
+        price,
+        discount,
+        stockStatus,
+        inStock,
+      })
+      .returning();
 
     if (!response) {
-      throw new Error('Add product failed');
+      throw new Error("Add product failed");
     }
 
     return {
       data: response,
-      message: 'Add product successful',
+      message: "Add product successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('addProduct service error:', error));
+    console.error(chalk.bgRed("addProduct service error:", error));
     return {
-      message: 'Add product failed',
+      message: "Add product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
+    };
+  }
+};
+
+export const addManyProductService = async (productDatas: any) => {
+  try {
+    if (!productDatas || productDatas.length === 0) {
+      throw new Error("All fields are required to add many product");
+    }
+
+    const BATCH_SIZE = 1;
+    const insertedData: any[] = [];
+
+    // Split and insert in batches
+    for (let i = 0; i < productDatas.length; i += BATCH_SIZE) {
+      const batch = productDatas.slice(i, i + BATCH_SIZE);
+      setTimeout(() => {}, 400);
+      const batchResponse = await db.insert(products).values(batch).returning();
+
+      if (!batchResponse) {
+        throw new Error(`Batch insert failed at batch ${i / BATCH_SIZE + 1}`);
+      }
+
+      insertedData.push(...batchResponse);
+    }
+
+    return {
+      data: insertedData,
+      message: "Add many product successful",
+      status: true,
+    };
+  } catch (error) {
+    console.error(chalk.bgRed("addManyProduct service error:", error));
+    return {
+      message: "Add many product failed",
+      status: false,
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -91,23 +135,23 @@ export const getProductService = async () => {
       .from(products);
 
     if (!response) {
-      throw new Error('Fetching product failed');
+      throw new Error("Fetching product failed");
     }
     if (response.length === 0) {
-      throw new Error('No product available');
+      throw new Error("No product available");
     }
 
     return {
       data: response,
-      message: 'Fetching product successful',
+      message: "Fetching product successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('getProduct service error:', error));
+    console.error(chalk.bgRed("getProduct service error:", error));
     return {
-      message: 'Fetching product failed',
+      message: "Fetching product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -117,31 +161,31 @@ export const getProductByAdminService = async () => {
     const response = await db.select().from(products);
 
     if (!response) {
-      throw new Error('Fetching product failed');
+      throw new Error("Fetching product failed");
     }
     if (response.length === 0) {
-      throw new Error('No product available');
+      throw new Error("No product available");
     }
 
     return {
       data: response,
-      message: 'Fetching product successful',
+      message: "Fetching product successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('getProduct service error:', error));
+    console.error(chalk.bgRed("getProduct service error:", error));
     return {
-      message: 'Fetching product failed',
+      message: "Fetching product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
 
 export const getProductByIdService = async (id: string) => {
   try {
-    if (!id || id === '') {
-      throw new Error('Product specification required');
+    if (!id || id === "") {
+      throw new Error("Product specification required");
     }
 
     const response = await db
@@ -160,23 +204,23 @@ export const getProductByIdService = async (id: string) => {
       .limit(1);
 
     if (!response) {
-      throw new Error('Fetching specific product failed');
+      throw new Error("Fetching specific product failed");
     }
     if (response.length === 0) {
-      throw new Error('No specific product available');
+      throw new Error("No specific product available");
     }
 
     return {
       data: response,
-      message: 'Fetching specific product successful',
+      message: "Fetching specific product successful",
       status: true,
     };
   } catch (error: any) {
-    console.error(chalk.bgRed('getProductById service error:', error));
+    console.error(chalk.bgRed("getProductById service error:", error));
     return {
-      message: 'Fetching specific product failed',
+      message: "Fetching specific product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -185,8 +229,8 @@ export const getProductByNameAndDescriptionService = async (
   searchData: string
 ) => {
   try {
-    if (!searchData || searchData === '') {
-      throw new Error('Search data is required to fetch products');
+    if (!searchData || searchData === "") {
+      throw new Error("Search data is required to fetch products");
     }
 
     searchData = `%${searchData.trim()}%`;
@@ -211,25 +255,25 @@ export const getProductByNameAndDescriptionService = async (
       );
 
     if (!response) {
-      throw new Error('Fetching searched product failed');
+      throw new Error("Fetching searched product failed");
     }
     if (response.length === 0) {
-      throw new Error('No searched product available');
+      throw new Error("No searched product available");
     }
 
     return {
       data: response,
-      message: 'Fetching searched product successful',
+      message: "Fetching searched product successful",
       status: true,
     };
   } catch (error) {
     console.error(
-      chalk.bgRed('getProductByNameAndDescription service error:', error)
+      chalk.bgRed("getProductByNameAndDescription service error:", error)
     );
     return {
-      message: 'Fetching searched product failed',
+      message: "Fetching searched product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -240,7 +284,7 @@ export const updatedProductByIdService = async (
 ) => {
   try {
     if (!id) {
-      throw new Error('Id needed to update specific product');
+      throw new Error("Id needed to update specific product");
     }
 
     const response = await db
@@ -259,23 +303,23 @@ export const updatedProductByIdService = async (
       });
 
     if (!response) {
-      throw new Error('Update specific product failed');
+      throw new Error("Update specific product failed");
     }
     if (response.length === 0) {
-      throw new Error('No product found');
+      throw new Error("No product found");
     }
 
     return {
       data: response,
-      message: 'Update specific product successful',
+      message: "Update specific product successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('updatedProductById service error:', error));
+    console.error(chalk.bgRed("updatedProductById service error:", error));
     return {
-      message: 'Updating specific product failed',
+      message: "Updating specific product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -283,7 +327,7 @@ export const updatedProductByIdService = async (
 export const deleteProductByIdService = async (id: string) => {
   try {
     if (!id) {
-      throw new Error('Id needed to delete specific product');
+      throw new Error("Id needed to delete specific product");
     }
 
     const response = await db
@@ -303,23 +347,23 @@ export const deleteProductByIdService = async (id: string) => {
       });
 
     if (!response) {
-      throw new Error('Delete specific product failed');
+      throw new Error("Delete specific product failed");
     }
     if (response.length === 0) {
-      throw new Error('No product found');
+      throw new Error("No product found");
     }
 
     return {
       data: response,
-      message: 'Delete specific product successful',
+      message: "Delete specific product successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('deleteProductById service error:', error));
+    console.error(chalk.bgRed("deleteProductById service error:", error));
     return {
-      message: 'Deleteing specific product failed',
+      message: "Deleteing specific product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };

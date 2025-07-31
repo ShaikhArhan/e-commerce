@@ -1,7 +1,7 @@
-import chalk from 'chalk';
-import { CreateRatingDto } from '../dtos/ratingDto';
-import { Request, Response } from 'express';
-import { addRatingService } from '../services/ratingService';
+import chalk from "chalk";
+import { CreateRatingDto } from "../dtos/ratingDto";
+import { Request, Response } from "express";
+import { addRatingService } from "../services/ratingService";
 
 const addRating = async (req: Request, res: Response) => {
   try {
@@ -11,11 +11,11 @@ const addRating = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('Login controller error:', error));
+    console.error(chalk.bgRed("Login controller error:", error));
     return res.json({
-      message: 'Login failed',
+      message: "Login failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };

@@ -7,18 +7,21 @@ export interface AddProductDto {
   price: string;
   discount?: string;
   stockStatus:
-    | 'In Stock'
-    | 'Out of Stock'
-    | 'Pre-order'
-    | 'Backorder'
-    | 'Discontinued'
-    | 'Coming Soon'
-    | 'Made to Order'
-    | 'Store Only';
+    | "In Stock"
+    | "Out of Stock"
+    | "Pre-order"
+    | "Backorder"
+    | "Discontinued"
+    | "Coming Soon"
+    | "Made to Order"
+    | "Store Only";
   inStock: number;
 }
 
-// export interface getProductByAdmin {  
+export interface AddManyProductsDto {
+  productDatas: Array<AddProductDto>;
+}
+// export interface getProductByAdmin {
 //   id: string;
 //   vendorId: string;
 //   vendorAddress: string;
@@ -36,7 +39,7 @@ export interface AddProductDto {
 //     | 'Coming Soon'
 //     | 'Made to Order'
 //     | 'Store Only';
-//   inStock: number;  
+//   inStock: number;
 // }
 
 export interface UpdateProductDto {
@@ -47,13 +50,13 @@ export interface UpdateProductDto {
   price: string;
   discount?: string;
   stockStatus:
-    | 'In Stock'
-    | 'Out of Stock'
-    | 'Pre-order'
-    | 'Backorder'
-    | 'Discontinued'
-    | 'Coming Soon'
-    | 'Made to Order'
-    | 'Store Only';
+    | "In Stock"
+    | "Out of Stock"
+    | "Pre-order"
+    | "Backorder"
+    | "Discontinued"
+    | "Coming Soon"
+    | "Made to Order"
+    | "Store Only";
   inStock: number;
 }

@@ -1,6 +1,11 @@
-import { Request, Response } from 'express';
-import { AddProductDto, UpdateProductDto } from '../dtos/productDto';
+import { Request, Response } from "express";
 import {
+  AddManyProductsDto,
+  AddProductDto,
+  UpdateProductDto,
+} from "../dtos/productDto";
+import {
+  addManyProductService,
   addProductService,
   deleteProductByIdService,
   getProductByAdminService,
@@ -8,8 +13,8 @@ import {
   getProductByNameAndDescriptionService,
   getProductService,
   updatedProductByIdService,
-} from '../services/productService';
-import chalk from 'chalk';
+} from "../services/productService";
+import chalk from "chalk";
 
 const addProduct = async (req: Request, res: Response) => {
   try {
@@ -39,11 +44,29 @@ const addProduct = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('addProduct controller error:', error));
+    console.error(chalk.bgRed("addProduct controller error:", error));
     return res.json({
-      message: 'Add product failed',
+      message: "Add product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
+    });
+  }
+};
+
+const addManyProduct = async (req: Request, res: Response) => {
+  try {
+    const { productDatas } = req.body as any;
+    console.log(productDatas);
+
+    const response = await addManyProductService(productDatas);
+
+    return res.json(response);
+  } catch (error) {
+    console.error(chalk.bgRed("addManyProduct controller error:", error));
+    return res.json({
+      message: "Add many product failed",
+      status: false,
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -54,11 +77,11 @@ const getProduct = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('getProduct controller error:', error));
+    console.error(chalk.bgRed("getProduct controller error:", error));
     return res.json({
-      message: 'Fetching product failed',
+      message: "Fetching product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -69,11 +92,11 @@ const getProductByAdmin = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('getProduct controller error:', error));
+    console.error(chalk.bgRed("getProduct controller error:", error));
     return res.json({
-      message: 'Fetching product failed',
+      message: "Fetching product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -86,11 +109,11 @@ const getProductById = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('getProductById controller error:', error));
+    console.error(chalk.bgRed("getProductById controller error:", error));
     return res.json({
-      message: 'Fetching specific product failed',
+      message: "Fetching specific product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -104,12 +127,12 @@ const getProductByNameAndDescription = async (req: Request, res: Response) => {
     return res.json(response);
   } catch (error) {
     console.error(
-      chalk.bgRed('getProductByNameAndDescription controller error:', error)
+      chalk.bgRed("getProductByNameAndDescription controller error:", error)
     );
     return res.json({
-      message: 'Fetching specific product failed',
+      message: "Fetching specific product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -141,11 +164,11 @@ const updatedProductById = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('updatedProductById controller error:', error));
+    console.error(chalk.bgRed("updatedProductById controller error:", error));
     return res.json({
-      message: 'Update specific product failed',
+      message: "Update specific product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -158,17 +181,18 @@ const deleteProductById = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('updatedProductById controller error:', error));
+    console.error(chalk.bgRed("updatedProductById controller error:", error));
     return res.json({
-      message: 'Update specific product failed',
+      message: "Update specific product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
 
 module.exports = {
   addProduct,
+  addManyProduct,
   getProduct,
   getProductByAdmin,
   getProductById,
