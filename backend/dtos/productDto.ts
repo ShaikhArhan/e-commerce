@@ -18,9 +18,10 @@ export interface AddProductDto {
   inStock: number;
 }
 
-export interface AddManyProductsDto {
-  productDatas: Array<AddProductDto>;
-}
+// export interface AddManyProductsDto {
+//   productDatas: Array<AddProductDto>;
+// }
+
 // export interface getProductByAdmin {
 //   id: string;
 //   vendorId: string;

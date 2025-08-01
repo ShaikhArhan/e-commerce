@@ -11,9 +11,9 @@ const addRating = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed("Login controller error:", error));
+    console.error(chalk.bgRed("addRating controller error:", error));
     return res.json({
-      message: "Login failed",
+      message: "Add rating failed",
       status: false,
       error: error instanceof Error ? error.message : "Unknown error",
     });

@@ -148,6 +148,34 @@
       "when": 1753960843129,
       "tag": "0020_dry_champions",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1754043572824,
+      "tag": "0021_flaky_maelstrom",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1754049815195,
+      "tag": "0022_clammy_morbius",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1754051385344,
+      "tag": "0023_ambitious_snowbird",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1754058803084,
+      "tag": "0024_nappy_dormammu",
+      "breakpoints": true
     }
   ]
 }

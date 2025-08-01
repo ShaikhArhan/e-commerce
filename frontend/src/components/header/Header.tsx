@@ -8,24 +8,24 @@ import { decodeToken } from "../../redux/thunk/decodeToken";
 import { FaBagShopping } from "react-icons/fa6";
 
 export const Header = () => {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user);
   const [authorized, setAuthorized] = useState<boolean>();
-  const token: string | null = localStorage.getItem("user-auth");
+  // const token: string | null = localStorage.getItem("user-auth");
 
   useEffect(() => {
     setAuthorized(user?.status);
   }, [user]);
 
-  useEffect(() => {
-    if (
-      (token && !user?.data) ||
-      user?.data === null ||
-      user?.data === undefined
-    ) {
-      dispatch(decodeToken(token));
-    }
-  }, [authorized]);
+  // useEffect(() => {
+  //   if (
+  //     (token && !user?.data) ||
+  //     user?.data === null ||
+  //     user?.data === undefined
+  //   ) {
+  //     dispatch(decodeToken(token));
+  //   }
+  // }, [authorized]);
 
   return (
     <header className="header">

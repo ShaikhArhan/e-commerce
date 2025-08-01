@@ -3,6 +3,7 @@ import { db } from "../config/db";
 import { CreateRatingDto } from "../dtos/ratingDto";
 import { rating } from "../drizzle/schema/rating";
 import { eq } from "drizzle-orm";
+import { roundToHalf } from "../util/numberHelper";
 
 export const addRatingService = async (data: CreateRatingDto) => {
   try {
@@ -13,9 +14,9 @@ export const addRatingService = async (data: CreateRatingDto) => {
       productId === undefined ||
       productId === null ||
       productId === "" ||
-      !ratingDetail ||
-      ratingDetail === undefined ||
-      ratingDetail === null ||
+      // !ratingDetail ||
+      // ratingDetail === undefined ||
+      // ratingDetail === null ||
       !userId ||
       userId === undefined ||
       userId === null ||
@@ -33,6 +34,7 @@ export const addRatingService = async (data: CreateRatingDto) => {
     ) {
       throw new Error("All fields are required");
     }
+
     const response = await db.transaction(async (txDB) => {
       const existRating = await txDB
         .select()
@@ -44,12 +46,29 @@ export const addRatingService = async (data: CreateRatingDto) => {
           .insert(rating)
           .values({
             productId,
-            ratingDetail: [ratingDetail],
-            totalRating: ratingDetail?.rating / 1,
+            ratingDetail: [
+              {
+                userId: userId,
+                rating: userRating,
+                comment: comment,
+                usingProduct: usingProduct,
+                createdAt: new Date().toISOString(),
+              },
+            ],
+            totalRating: roundToHalf(userRating),
           })
           .returning();
         return insertRating;
       }
+
+      const totalRating =
+        (existRating[0].ratingDetail.reduce(
+          (prev, curr) => prev + curr?.rating,
+          0
+        ) +
+          userRating) /
+          existRating[0].ratingDetail.length +
+        1;
 
       const insertRating = await txDB
         .update(rating)
@@ -64,14 +83,7 @@ export const addRatingService = async (data: CreateRatingDto) => {
               createdAt: new Date().toISOString(),
             },
           ],
-          totalRating:
-            (existRating[0].ratingDetail.reduce(
-              (prev, curr) => prev + curr?.rating,
-              0
-            ) +
-              userRating) /
-              existRating[0].ratingDetail.length +
-            1,
+          totalRating: roundToHalf(totalRating),
         })
         .where(eq(rating.productId, productId))
         .returning();
@@ -84,7 +96,7 @@ export const addRatingService = async (data: CreateRatingDto) => {
 
     return {
       data: response,
-      message: "Rating added successfully",
+      message: "Rating added",
       status: true,
     };
   } catch (error) {

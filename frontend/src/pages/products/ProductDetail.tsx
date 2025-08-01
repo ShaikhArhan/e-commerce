@@ -10,6 +10,7 @@ import {
 } from "../../redux/thunk/favoriteProduct";
 import { addProductToCart, getCartProduct } from "../../redux/thunk/cart";
 import { Heart } from "lucide-react";
+import type { ProductDetailInterface } from "../../interface/productDetailinterface";
 
 export const ProductDetail = () => {
   const { prevComp, productId } = useParams() as {
@@ -28,26 +29,26 @@ export const ProductDetail = () => {
     cartProduct: state.cartProduct,
   }));
 
-  interface Product {
-    id: string;
-    image: string;
-    name: string;
-    description: string;
-    price: string;
-    discount: string;
-    stockStatus:
-      | "In Stock"
-      | "Out of Stock"
-      | "Pre-order"
-      | "Backorder"
-      | "Discontinued"
-      | "Coming Soon"
-      | "Made to Order"
-      | "Store Only";
-    inStock: number;
-  }
+  // interface Product {
+  //   id: string;
+  //   image: string;
+  //   name: string;
+  //   description: string;
+  //   price: string;
+  //   discount: string;
+  //   stockStatus:
+  //     | "In Stock"
+  //     | "Out of Stock"
+  //     | "Pre-order"
+  //     | "Backorder"
+  //     | "Discontinued"
+  //     | "Coming Soon"
+  //     | "Made to Order"
+  //     | "Store Only";
+  //   inStock: number;
+  // }
 
-  const [product, setProduct] = useState<Product>();
+  const [product, setProduct] = useState<ProductDetailInterface>();
   //favorite product data
   const favoriteData = new Set(
     favoriteProduct?.data?.map((fav) => fav?.productId)

@@ -1,0 +1,1 @@
+ALTER TABLE "rating" ALTER COLUMN "total_rating" SET DATA TYPE numeric;

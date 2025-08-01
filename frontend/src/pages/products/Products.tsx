@@ -41,7 +41,7 @@ export const Products = () => {
   //get the product
   useEffect(() => {
     dispatch(getProduct());
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   //set the product
   useEffect(() => {
@@ -62,7 +62,7 @@ export const Products = () => {
         getCartProduct({ userId: user?.data?.id, withProductDetail: false })
       );
     }
-  }, [user?.data?.id]);
+  }, [user]);
 
   //set the favorite product
   useEffect(() => {

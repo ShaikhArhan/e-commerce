@@ -1,9 +1,5 @@
 import { Request, Response } from "express";
-import {
-  AddManyProductsDto,
-  AddProductDto,
-  UpdateProductDto,
-} from "../dtos/productDto";
+import { AddProductDto, UpdateProductDto } from "../dtos/productDto";
 import {
   addManyProductService,
   addProductService,
@@ -55,7 +51,7 @@ const addProduct = async (req: Request, res: Response) => {
 
 const addManyProduct = async (req: Request, res: Response) => {
   try {
-    const { productDatas } = req.body as any;
+    const { productDatas } = req.body as { productDatas: Array<AddProductDto> };
     console.log(productDatas);
 
     const response = await addManyProductService(productDatas);

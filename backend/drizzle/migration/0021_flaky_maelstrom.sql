@@ -1,0 +1,1 @@
+ALTER TABLE "rating" RENAME COLUMN "rating" TO "total_rating";

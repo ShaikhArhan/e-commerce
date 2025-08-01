@@ -1,19 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { userInitialState } from '../../interface/userInterface';
-import { login } from '../thunk/login';
-import type { apiResponse } from '../../interface/apiResponseInterface';
-import { decodeToken } from '../thunk/decodeToken';
+import { createSlice } from "@reduxjs/toolkit";
+import type { userInitialState } from "../../interface/userInterface";
+import { login } from "../thunk/login";
+import type { apiResponse } from "../../interface/apiResponseInterface";
+import { decodeToken } from "../thunk/decodeToken";
 
 const initialState: userInitialState = {
   data: {},
-  message: '',
+  message: "",
   status: false,
   error: null,
-  reducerStatus: 'idle',
+  reducerStatus: "idle",
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -24,45 +24,45 @@ const userSlice = createSlice({
         state.message = payload?.message;
         state.status = payload?.status;
         state.error = null;
-        state.reducerStatus = 'fulfilled';
+        state.reducerStatus = "fulfilled";
       })
       .addCase(decodeToken.pending, (state) => {
-        state.data = [];
-        state.message = '';
+        state.data = {};
+        state.message = "";
         state.error = null;
-        state.reducerStatus = 'pending';
+        state.reducerStatus = "pending";
       })
       .addCase(decodeToken.rejected, (state, action) => {
         const payload = action.payload as apiResponse;
-        console.log('payload: ', payload);
+        console.log("payload: ", payload);
         state.message = payload.message;
         state.status = payload.status;
         state.error = payload.error;
-        state.reducerStatus = 'rejected';
+        state.reducerStatus = "rejected";
       });
 
     builder
       .addCase(login.fulfilled, (state, action) => {
         const payload = action.payload as apiResponse;
-        localStorage.setItem('user-auth', String(payload?.data));
+        localStorage.setItem("user-auth", String(payload?.data));
         state.message = payload?.message;
         state.status = payload?.status;
         state.error = null;
-        state.reducerStatus = 'fulfilled';
+        state.reducerStatus = "fulfilled";
       })
       .addCase(login.pending, (state) => {
-        state.data = [];
-        state.message = '';
+        state.data = {};
+        state.message = "";
         state.error = null;
-        state.reducerStatus = 'pending';
+        state.reducerStatus = "pending";
       })
       .addCase(login.rejected, (state, action) => {
         const payload = action.payload as apiResponse;
-        console.log('payload: ', payload);
+        console.log("payload: ", payload);
         state.message = payload.message;
         state.status = payload.status;
         state.error = payload.error;
-        state.reducerStatus = 'rejected';
+        state.reducerStatus = "rejected";
       });
   },
 });

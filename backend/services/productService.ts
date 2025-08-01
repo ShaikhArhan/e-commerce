@@ -2,7 +2,6 @@ import { eq, ilike, or } from "drizzle-orm";
 import { db } from "../config/db";
 import { products } from "../drizzle/schema/products";
 import {
-  AddManyProductsDto,
   AddProductDto,
   UpdateProductDto,
 } from "../dtos/productDto";
@@ -82,30 +81,35 @@ export const addProductService = async (data: AddProductDto) => {
   }
 };
 
-export const addManyProductService = async (productDatas: any) => {
+export const addManyProductService = async (
+  productDatas: Array<AddProductDto>
+) => {
   try {
     if (!productDatas || productDatas.length === 0) {
-      throw new Error("All fields are required to add many product");
+      throw new Error("Products data are required to add many product");
     }
 
-    const BATCH_SIZE = 1;
-    const insertedData: any[] = [];
+    // const BATCH_SIZE = 1;
+    // const insertedData: any[] = [];
 
     // Split and insert in batches
-    for (let i = 0; i < productDatas.length; i += BATCH_SIZE) {
-      const batch = productDatas.slice(i, i + BATCH_SIZE);
-      setTimeout(() => {}, 400);
-      const batchResponse = await db.insert(products).values(batch).returning();
+    // for (let i = 0; i < productDatas.length; i += BATCH_SIZE) {
+    //   const batch = productDatas.slice(i, i + BATCH_SIZE);
+    //   const batchResponse = await db.insert(products).values(batch).returning();
 
-      if (!batchResponse) {
-        throw new Error(`Batch insert failed at batch ${i / BATCH_SIZE + 1}`);
-      }
+    //   if (!batchResponse) {
+    //     throw new Error(`Batch insert failed at batch ${i / BATCH_SIZE + 1}`);
+    //   }
 
-      insertedData.push(...batchResponse);
+    //   insertedData.push(...batchResponse);
+    // }
+    const response = await db.insert(products).values(productDatas).returning();
+
+    if (!response) {
+      throw new Error("Add many product failed");
     }
-
     return {
-      data: insertedData,
+      data: response,
       message: "Add many product successful",
       status: true,
     };

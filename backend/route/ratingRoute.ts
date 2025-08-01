@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post(
   '/addRating',
-  userAuthorization.userVerify(['admin', 'vendor']),
+  userAuthorization.userVerify(['user','admin', 'vendor']),
   ratingController.addRating
 );
 
