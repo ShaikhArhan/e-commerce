@@ -19,7 +19,7 @@ function App() {
       await dispatch(decodeToken(token));
     }
   };
-
+  
   return (
     <>
       <AppRoutes />

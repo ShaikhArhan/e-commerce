@@ -1,0 +1,35 @@
+.product-rating {
+    color: #d9b800;
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+    outline: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    gap: 10px;
+}
+
+.product-rating span {
+    color: #4d4d4d;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 4px;
+    background-color: #aeaeae4e;
+}
+
+.star-rating {
+    display: flex;
+    align-items: center;
+}
+
+.half {
+    scale: 1.4;
+    background: linear-gradient(90deg, #d9b800 50%, #fff 50%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke: 0.1px #d9b800;
+}

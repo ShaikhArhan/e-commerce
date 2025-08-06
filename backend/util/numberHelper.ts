@@ -13,7 +13,6 @@
 //     };
 // };
 
-
 // export const RoundOffNumberMaker = (num) => {
 //     const result = decimalChecker(num)
 //     if (!result.status) {
@@ -43,8 +42,20 @@
 //     }
 // }
 
-
 export const roundToHalf = (value: string | number) => {
-    const num = typeof value === "string" ? parseFloat(value) : value;
-    return Math.round(num * 2) / 2;
-}
+  //this function will round off the number in integer or in decimal at .5
+  const num = typeof value === "string" ? parseFloat(value) : value;
+  return Math.round(num * 2) / 2;
+};
+
+export const ratingChecker = (rating: number) => {
+  //this function is use to check the rating is valid or not
+  const formatedRating = roundToHalf(rating);
+
+  if (formatedRating < 0) {
+    return 0;
+  } else if (formatedRating > 5) {
+    return 5;
+  }
+  return formatedRating;
+};

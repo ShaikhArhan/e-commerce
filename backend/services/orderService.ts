@@ -1,15 +1,16 @@
-import chalk from 'chalk';
-import { db } from '../config/db';
+import chalk from "chalk";
+import { db } from "../config/db";
 import {
   AddProductOrderDto,
   DeleteOrderProductDto,
   GetProductOrderDto,
   UpdateProductOrderDto,
-} from '../dtos/orderDto';
-import { order } from '../drizzle/schema/order';
-import { and, eq, inArray } from 'drizzle-orm';
-import { cart } from '../drizzle/schema/cart';
-import { products } from '../drizzle/schema/products';
+} from "../dtos/orderDto";
+import { order } from "../drizzle/schema/order";
+import { and, eq, inArray } from "drizzle-orm";
+import { cart } from "../drizzle/schema/cart";
+import { products } from "../drizzle/schema/products";
+import { addProductsBuyedService } from "./productsBuyedService";
 
 export const addProductOrderService = async (data: AddProductOrderDto) => {
   try {
@@ -19,17 +20,17 @@ export const addProductOrderService = async (data: AddProductOrderDto) => {
     if (
       userId === undefined ||
       userId === null ||
-      userId === '' ||
+      userId === "" ||
       orderProductDetailData === undefined ||
       orderProductDetailData?.length === 0 ||
       orderAddress === undefined ||
       orderAddress === null ||
-      orderAddress === '' ||
+      orderAddress === "" ||
       paymentMethod === undefined ||
       paymentMethod === null
     ) {
       throw new Error(
-        'user or order credentials required to add product order'
+        "user or order credentials required to add product order"
       );
     }
 
@@ -51,7 +52,7 @@ export const addProductOrderService = async (data: AddProductOrderDto) => {
       productExistInCart.length !== productIds.length
     ) {
       throw new Error(
-        'Product not exist in cart, direct order not accessible!'
+        "Product not exist in cart, direct order not accessible!"
       );
     }
 
@@ -79,7 +80,7 @@ export const addProductOrderService = async (data: AddProductOrderDto) => {
 
       if (!productFromCart || productFromCart.length !== productIds.length) {
         throw new Error(
-          'Product not exist in cart, direct order not accessible!'
+          "Product not exist in cart, direct order not accessible!"
         );
       }
 
@@ -95,7 +96,7 @@ export const addProductOrderService = async (data: AddProductOrderDto) => {
         productDeleteFromCart.length !== productIds.length
       ) {
         throw new Error(
-          'Product not transfer from cart to order, try again to order!'
+          "Product not transfer from cart to order, try again to order!"
         );
       }
       const totalOrderProduct: number = productFromCart?.reduce(
@@ -129,26 +130,28 @@ export const addProductOrderService = async (data: AddProductOrderDto) => {
           .set({ inStock: productInStock.inStock - value })
           .where(eq(products.id, key))
           .returning();
+
+        await addProductsBuyedService({ productId: key, userId: userId });
       }
 
       return response;
     });
 
     if (!response) {
-      throw new Error('Add product order failed');
+      throw new Error("Add product order failed");
     }
 
     return {
       data: response,
-      message: 'Add product order successful',
+      message: "Add product order successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('addProductOrder service error:', error));
+    console.error(chalk.bgRed("addProductOrder service error:", error));
     return {
-      message: 'Add product order failed',
+      message: "Add product order failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -156,8 +159,8 @@ export const addProductOrderService = async (data: AddProductOrderDto) => {
 export const getProductOrderService = async (data: GetProductOrderDto) => {
   try {
     const { userId } = data;
-    if (userId === undefined || userId === null || userId === '') {
-      throw new Error('user credentials required to get user order product');
+    if (userId === undefined || userId === null || userId === "") {
+      throw new Error("user credentials required to get user order product");
     }
 
     const response = await db
@@ -166,23 +169,23 @@ export const getProductOrderService = async (data: GetProductOrderDto) => {
       .where(eq(order.userId, userId));
 
     if (!response) {
-      throw new Error('Fetch product order failed');
+      throw new Error("Fetch product order failed");
     }
     if (response.length === 0) {
-      throw new Error('No product order found');
+      throw new Error("No product order found");
     }
 
     return {
       data: response,
-      message: 'Fetch product order successful',
+      message: "Fetch product order successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('getProductOrder service error:', error));
+    console.error(chalk.bgRed("getProductOrder service error:", error));
     return {
-      message: 'Fetch product order failed',
+      message: "Fetch product order failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -196,16 +199,16 @@ export const updateProductOrderService = async (
     if (
       orderId === undefined ||
       orderId === null ||
-      orderId === '' ||
+      orderId === "" ||
       orderAddress === undefined ||
       orderAddress === null ||
-      orderAddress === '' ||
+      orderAddress === "" ||
       paymentMethod === undefined ||
       paymentMethod === null ||
       orderStatus === undefined ||
       orderStatus === null
     ) {
-      throw new Error('order id required to delete product order');
+      throw new Error("order id required to delete product order");
     }
 
     const response = await db
@@ -219,23 +222,23 @@ export const updateProductOrderService = async (
       .returning();
 
     if (!response) {
-      throw new Error('Delete product order failed');
+      throw new Error("Delete product order failed");
     }
     if (response.length === 0) {
-      throw new Error('No product order found');
+      throw new Error("No product order found");
     }
 
     return {
       data: response,
-      message: 'Delete product order successful',
+      message: "Delete product order successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('deleteProductOrder service error:', error));
+    console.error(chalk.bgRed("deleteProductOrder service error:", error));
     return {
-      message: 'Delete product order failed',
+      message: "Delete product order failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };
@@ -245,8 +248,8 @@ export const deleteProductOrderService = async (
 ) => {
   try {
     const { orderId } = data;
-    if (orderId === undefined || orderId === null || orderId === '') {
-      throw new Error('order id required to delete product order');
+    if (orderId === undefined || orderId === null || orderId === "") {
+      throw new Error("order id required to delete product order");
     }
 
     const response = await db.transaction(async (txDB) => {
@@ -255,8 +258,8 @@ export const deleteProductOrderService = async (
         .from(order)
         .where(eq(order.id, orderId))
         .limit(1);
-      if (orderDelivered.orderStatus !== 'delivered') {
-        throw new Error('undelivered orders cannot be deleted ');
+      if (orderDelivered.orderStatus !== "delivered") {
+        throw new Error("undelivered orders cannot be deleted ");
       }
       const response = await txDB
         .delete(order)
@@ -266,23 +269,23 @@ export const deleteProductOrderService = async (
     });
 
     if (!response) {
-      throw new Error('Delete product order failed');
+      throw new Error("Delete product order failed");
     }
     if (response.length === 0) {
-      throw new Error('No product order found');
+      throw new Error("No product order found");
     }
 
     return {
       data: response,
-      message: 'Delete product order successful',
+      message: "Delete product order successful",
       status: true,
     };
   } catch (error) {
-    console.error(chalk.bgRed('deleteProductOrder service error:', error));
+    console.error(chalk.bgRed("deleteProductOrder service error:", error));
     return {
-      message: 'Delete product order failed',
+      message: "Delete product order failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     };
   }
 };

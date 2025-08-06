@@ -1,17 +1,17 @@
-import chalk from 'chalk';
-import { Request, Response } from 'express';
+import chalk from "chalk";
+import { Request, Response } from "express";
 import {
   addProductOrderService,
   deleteProductOrderService,
   getProductOrderService,
   updateProductOrderService,
-} from '../services/orderService';
+} from "../services/orderService";
 import {
   AddProductOrderDto,
   DeleteOrderProductDto,
   GetProductOrderDto,
   UpdateProductOrderDto,
-} from '../dtos/orderDto';
+} from "../dtos/orderDto";
 
 const addProductOrder = async (req: Request, res: Response) => {
   try {
@@ -27,11 +27,11 @@ const addProductOrder = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('addProductToCart controller error:', error));
+    console.error(chalk.bgRed("addProductToCart controller error:", error));
     return res.json({
-      message: 'Add product order failed',
+      message: "Add product order failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -44,11 +44,11 @@ const getProductOrder = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('getProductToCart controller error:', error));
+    console.error(chalk.bgRed("getProductToCart controller error:", error));
     return res.json({
-      message: 'Fetch product order failed',
+      message: "Fetch product order failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -67,11 +67,11 @@ const updateProductOrder = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('updateProductToCart controller error:', error));
+    console.error(chalk.bgRed("updateProductToCart controller error:", error));
     return res.json({
-      message: 'Update product order failed',
+      message: "Update product order failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -84,11 +84,11 @@ const deleteProductOrder = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('deleteProductToCart controller error:', error));
+    console.error(chalk.bgRed("deleteProductToCart controller error:", error));
     return res.json({
-      message: 'Delete order product failed',
+      message: "Delete order product failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };

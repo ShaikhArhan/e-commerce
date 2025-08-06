@@ -8,6 +8,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { products } from "./products";
 import { RatingDetailDto } from "../../dtos/ratingDto";
+import { comments } from "./comments";
 
 export const rating = pgTable("rating", {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -21,6 +22,10 @@ export const rating = pgTable("rating", {
     .notNull(),
 
   totalRating: numeric("total_rating").notNull().$type<number>().default(0),
+
+  commentId: uuid("comment_id")
+    .references(() => comments.id)
+    .notNull(),
 
   createdAt: timestamp("created_at", {
     mode: "string",

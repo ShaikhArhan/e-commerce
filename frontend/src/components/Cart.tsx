@@ -1,5 +1,3 @@
-"use client"
-
 import { useEffect, useState } from "react"
 import { Trash2, Minus, Plus, ShoppingBag, ArrowLeft } from "lucide-react"
 import { useAppDispatch, useAppSelector } from "../hook/reduxHook"

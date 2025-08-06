@@ -11,6 +11,8 @@ import {
 } from "../../redux/thunk/favoriteProduct";
 import { useNavigate } from "react-router-dom";
 import { addProductToCart, getCartProduct } from "../../redux/thunk/cart";
+import { Rating } from "../../components/rating/Rating";
+import { getProductRating } from "../../redux/thunk/rating";
 
 export const Products = () => {
   const dispatch = useAppDispatch();
@@ -41,6 +43,7 @@ export const Products = () => {
   //get the product
   useEffect(() => {
     dispatch(getProduct());
+    dispatch(getProductRating());
   }, [dispatch, user]);
 
   //set the product
@@ -176,12 +179,16 @@ export const Products = () => {
               {product.name}
             </h2>
 
-            {/* Static Rating */}
-            <div className="product-rating">
-              {"★".repeat(2)}
-              {"☆".repeat(3)}
-              <span>{`2,038`}</span>
-            </div>
+            {/* Rating */}
+            <Rating
+              productId={product.id}
+              onClick={() => {
+                navigateToDetail(product.id, {
+                  name: "Shop",
+                  path: "products",
+                });
+              }}
+            />
 
             <p className="product-description" title={product.description}>
               {product.description}

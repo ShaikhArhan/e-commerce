@@ -1,7 +1,7 @@
-import { Request, Response } from 'express';
-import { LoginDto, RegisterDto } from '../dtos/authDto';
-import { loginService, registerService } from '../services/authService';
-import chalk from 'chalk';
+import { Request, Response } from "express";
+import { LoginDto, RegisterDto } from "../dtos/authDto";
+import { loginService, registerService } from "../services/authService";
+import chalk from "chalk";
 
 const Login = async (req: Request, res: Response) => {
   try {
@@ -11,11 +11,11 @@ const Login = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('Login controller error:', error));
+    console.error(chalk.bgRed("Login controller error:", error));
     return res.json({
-      message: 'Login failed',
+      message: "Login failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };
@@ -30,8 +30,8 @@ const Register = async (req: Request, res: Response) => {
       email: email.toLowerCase().trim(),
       password: password.trim(),
       country: country.trim(),
-      phoneNumber: phoneNumber ? phoneNumber.trim() : '',
-      address: address ? address.trim() : '',
+      phoneNumber: phoneNumber ? phoneNumber.trim() : "",
+      address: address ? address.trim() : "",
       role: role.trim(),
     };
 
@@ -39,11 +39,11 @@ const Register = async (req: Request, res: Response) => {
 
     return res.json(response);
   } catch (error) {
-    console.error(chalk.bgRed('Register controller error:', error));
+    console.error(chalk.bgRed("Register controller error:", error));
     return res.json({
-      message: 'Register failed',
+      message: "Register failed",
       status: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: error instanceof Error ? error.message : "Unknown error",
     });
   }
 };

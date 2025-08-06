@@ -5,5 +5,9 @@ export const PrivateRoutes = () => {
   // TODO: Replace this with actual authentication check
   const isAuthenticated = true; // This should come from your auth state/context
 
-  return isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />;
+  return (
+    <>
+      {isAuthenticated ? <Outlet /> : <Navigate to="/login" replace />}
+    </>
+  );
 };

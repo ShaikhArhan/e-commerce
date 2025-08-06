@@ -8,6 +8,7 @@ const favoriteProductRoute = require("./favoriteProductRoute");
 const cartRoute = require("./cartRoute");
 const orderRoute = require("./orderRoute");
 const ratingRoute = require("./ratingRoute");
+const productsBuyedRoute = require("./productsBuyedRoute");
 
 const userAuthentication = require("../middleware/userAuthentication");
 const routes = express.Router();
@@ -30,5 +31,7 @@ routes.use("/cart", userAuthentication.userVerify, cartRoute);
 routes.use("/order", userAuthentication.userVerify, orderRoute);
 
 routes.use("/rating", userAuthentication.userVerify, ratingRoute);
+
+routes.use("/productsBuyed", userAuthentication.userVerify, productsBuyedRoute);
 
 module.exports = routes;

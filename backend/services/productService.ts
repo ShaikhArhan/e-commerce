@@ -1,10 +1,7 @@
 import { eq, ilike, or } from "drizzle-orm";
 import { db } from "../config/db";
 import { products } from "../drizzle/schema/products";
-import {
-  AddProductDto,
-  UpdateProductDto,
-} from "../dtos/productDto";
+import { AddProductDto, UpdateProductDto } from "../dtos/productDto";
 import chalk from "chalk";
 
 export const addProductService = async (data: AddProductDto) => {

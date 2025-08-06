@@ -1,0 +1,1 @@
+ALTER TABLE "products_buyed" RENAME COLUMN "quantity" TO "total_buyed_quantity";

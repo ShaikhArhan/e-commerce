@@ -1,24 +1,18 @@
 import express from "express";
-const ratingController = require("../controller/ratingController");
+const productsBuyedController = require("../controller/productsBuyedController");
 const userAuthorization = require("../middleware/userAuthorization");
 const router = express.Router();
 
 router.post(
-  "/addRating",
+  "/addProductsBuyed",
   userAuthorization.userVerify(["user", "admin", "vendor"]),
-  ratingController.addRating
-);
-
-router.get(
-  "/getRating",
-  userAuthorization.userVerify(["user", "admin", "vendor"]),
-  ratingController.getRating
+  productsBuyedController.addProductsBuyed
 );
 
 router.post(
-  "/getRatingByProductId",
+  "/getProductsBuyedByProductId",
   userAuthorization.userVerify(["user", "admin", "vendor"]),
-  ratingController.getRatingByProductId
+  productsBuyedController.getProductsBuyedByProductId
 );
 
 module.exports = router;

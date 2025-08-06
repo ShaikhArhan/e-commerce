@@ -11,13 +11,14 @@ import {
 import { addProductToCart, getCartProduct } from "../../redux/thunk/cart";
 import { Heart } from "lucide-react";
 import type { ProductDetailInterface } from "../../interface/productDetailinterface";
+import { Rating } from "../../components/rating/Rating";
 
 export const ProductDetail = () => {
   const { prevComp, productId } = useParams() as {
     prevComp: string;
     productId: string;
   };
-  const  [prevCompName, prevCompPath]  = prevComp.split('|');
+  const [prevCompName, prevCompPath] = prevComp.split("|");
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -191,7 +192,7 @@ export const ProductDetail = () => {
             />
           </button>
         </div>
-
+        <Rating productId={product.id} />
         <p className="pd-description">{product.description}</p>
 
         <div className="pd-price-section">
